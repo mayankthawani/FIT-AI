@@ -8,6 +8,7 @@ import { detectPushup } from "./utils/pushup";
 import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { detectBicepCurl } from "./utils/bicepcurl";
 
 // import { detectPushUp } from "./utils/pushup"; // Import push-up detection
 
@@ -121,6 +122,14 @@ const PoseDetection = ({ pose }) => {
           
             if (isPushUp) {
               detectedPose = "PushUp";
+            } else {
+              detectedPose = "Unknown";
+            }
+          }
+          else if(pose === "bicepcurl"){
+            const isBicepCurl = detectBicepCurl(keypoints);
+            if (isBicepCurl) {
+              detectedPose = "BicepCurl";
             } else {
               detectedPose = "Unknown";
             }

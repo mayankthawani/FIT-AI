@@ -1,17 +1,13 @@
 import { getAngle } from "./poseUtils";
 
-export const detectPushup = (keypoints) => {
+export const detectBicepCurl = (keypoints) => {
     const leftshoulder = keypoints[11];
-    const rightshoulder = keypoints[12];
     const leftelbow = keypoints[13];
-    const rightelbow = keypoints[14];
     const leftwrist = keypoints[15];
-    const rightwrist = keypoints[16];
   
-    const avgshoulder = (leftshoulder + rightshoulder) / 2;
-    const avgelbow = (leftelbow + rightelbow) / 2;
-    const avgwrist = (leftwrist + rightwrist) / 2;
+    
 
-    const angle = getAngle(avgshoulder, avgelbow, avgwrist);
+    const angle = getAngle(leftshoulder.x, leftelbow.x, leftwrist.x, leftshoulder.y, leftelbow.y, leftwrist.y);
+    console.log(angle);
     return (angle < 90) ? "bicepcurl" : null;
   };

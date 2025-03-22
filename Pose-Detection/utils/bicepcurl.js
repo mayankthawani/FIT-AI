@@ -8,6 +8,5 @@ export const detectBicepCurl = (keypoints) => {
     
 
     const angle = getAngle(leftshoulder.x, leftelbow.x, leftwrist.x, leftshoulder.y, leftelbow.y, leftwrist.y);
-    console.log(angle);
     return (angle < 90) ? "bicepcurl" : null;
   };

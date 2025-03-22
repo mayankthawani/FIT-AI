@@ -1,8 +1,10 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function WorkoutsPage() {
+  const router = useRouter();
   const exercises = [
     { 
       name: "Squats", 
@@ -12,6 +14,7 @@ export default function WorkoutsPage() {
       icon: "🦵",
       description: "Stand with feet shoulder-width apart, lower your body as if sitting back into a chair, keeping chest up and knees over toes.",
       difficulty: "Intermediate",
+      passingParam: "squats",
       targetMuscles: ["Quadriceps", "Hamstrings", "Glutes"]
     },
     { 
@@ -22,6 +25,7 @@ export default function WorkoutsPage() {
       icon: "💪",
       description: "Start in plank position, lower body until chest nearly touches ground, push back up. Keep core tight throughout.",
       difficulty: "Beginner",
+      passingParam: "pushup",
       targetMuscles: ["Chest", "Shoulders", "Triceps"]
     },
     { 
@@ -32,6 +36,7 @@ export default function WorkoutsPage() {
       icon: "🔄",
       description: "Slowly rotate head in circular motions, keeping movements controlled. Helps reduce neck tension and improves mobility.",
       difficulty: "Easy",
+      passingParam: "head-rotate",
       targetMuscles: ["Neck muscles", "Upper trapezius"]
     },
     { 
@@ -42,6 +47,7 @@ export default function WorkoutsPage() {
       icon: "💪",
       description: "Hold dumbbells at sides, palms forward. Curl weights toward shoulders while keeping elbows fixed at sides.",
       difficulty: "Intermediate",
+      passingParam: "bicepcurl",
       targetMuscles: ["Biceps", "Forearms"]
     },
     { 
@@ -52,6 +58,7 @@ export default function WorkoutsPage() {
       icon: "🏋️",
       description: "Hold a straight-arm plank position, engaging core and keeping body in straight line from head to heels.",
       difficulty: "Intermediate",
+      passingParam: "planks",
       targetMuscles: ["Core", "Shoulders", "Back"]
     },
     { 
@@ -62,6 +69,7 @@ export default function WorkoutsPage() {
       icon: "🦿",
       description: "Step forward with one leg, lowering hips until both knees are bent at 90 degrees. Alternate legs.",
       difficulty: "Beginner",
+      passingParam: "lunges",
       targetMuscles: ["Quadriceps", "Glutes", "Hamstrings"]
     },
   ];
@@ -72,8 +80,8 @@ export default function WorkoutsPage() {
     core: [exercises[4], exercises[5]], // Planks, Lunges
   };
 
-  const handleClick = () => {
-    
+  const handleClick = (pose) => {
+    router.push(`/detect/${pose}`);
   }
 
   return (
@@ -88,7 +96,6 @@ export default function WorkoutsPage() {
       >
         {Object.entries(exerciseCategories).map(([category, exercises], categoryIndex) => (
           <motion.div
-          onClick={handleClick}
             key={category}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,6 +114,7 @@ export default function WorkoutsPage() {
                   key={index}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
+                  onClick={() => handleClick(exercise.passingParam)}
                 >
                   <Card className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700 hover:border-cyan-500/50 backdrop-blur-sm">
                     <CardContent className="p-6">

@@ -5,6 +5,7 @@ import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
 import { detectPushup } from "./utils/pushup";
+import { detectHeadRotation } from "./utils/headrotation";
 import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -17,8 +18,9 @@ const PoseDetection = ({ pose }) => {
   const streamRef = useRef(null);
   const [poseName, setPoseName] = useState("Detecting...");
   const [user, setUser] = useState(null);
-  const [rep, setRep] = useState(false);
+  const repRef = useRef(false);
   const [coins, setCoins] = useState(0);
+  const [count, setCount] = useState(0);
   let poseLandmarker;
 
   const updateCoinsInDB = async (userId, newCoins) => {
@@ -134,12 +136,15 @@ const PoseDetection = ({ pose }) => {
           
             if (isSquat) {
               detectedPose = "Standing";
-              setRep(false);
+              if(repRef.current) {
+                repRef.current = false;
+              }
             } else {
               detectedPose = "Squat";
-              if (!rep) {
-                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
-                setRep(true);
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
               }
             }
           }
@@ -148,26 +153,32 @@ const PoseDetection = ({ pose }) => {
           
             if (isPushUp) {
               detectedPose = "PushUp";
-              if (!rep) {
-                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
-                setRep(true);
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
               }
             } else {
               detectedPose = "Unknown";
-              setRep(false);
+              if(repRef.current) {
+                repRef.current = false;
+              }
             }
           }
           else if(pose === "bicepcurl"){
             const isBicepCurl = detectBicepCurl(keypoints);
             if (isBicepCurl) {
               detectedPose = "BicepCurl";
-              if (!rep) {
-                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
-                setRep(true);
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
               }
             } else {
               detectedPose = "Unknown";
-              setRep(false);
+              if(repRef.current) {
+                repRef.current = false;
+              }
             }
           }
           else if(pose === "crunches") {
@@ -175,27 +186,33 @@ const PoseDetection = ({ pose }) => {
           
             if (isCrunches) {
               detectedPose = "Crunches";
-              if (!rep) {
-                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
-                setRep(true);
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
               }
             } else {
               detectedPose = "Unknown";
-              setRep(false);
+              if(repRef.current) {
+                repRef.current = false;
+              }
             }
           }
-          else if(pose === "headrotation") {
+          else if(pose === "head-rotate") {
             const isHeadRotation = detectHeadRotation(keypoints);
           
             if (isHeadRotation) {
               detectedPose = "HeadRotation";
-              if (!rep) {
-                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
-                setRep(true);
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
               }
             } else {
               detectedPose = "Unknown";
-              setRep(false);
+              if(repRef.current) {
+                repRef.current = false;
+              }
             }
           }
           else {
@@ -253,6 +270,9 @@ const PoseDetection = ({ pose }) => {
 
       <div className="absolute top-5 text-white text-2xl bg-gray-800 px-4 py-2 rounded-md">
         {poseName}
+        <div>
+          Count: {count}
+        </div>
       </div>
     </div>
   );

@@ -8,10 +8,19 @@ export const detectCrunches = (keypoints) => {
     const leftknee = keypoints[25];
     const rightknee = keypoints[26];
   
-    const avgshoulder = (leftshoulder + rightshoulder) / 2;
-    const avghip = (lefthip + righthip) / 2;
-    const avgknee = (leftknee + rightknee) / 2;
+    const avgshoulder = {
+        x: (leftshoulder.x + rightshoulder.x) / 2,
+        y: (leftshoulder.y + rightshoulder.y) / 2
+    };
+    const avghip = {
+        x: (lefthip.x + righthip.x) / 2,
+        y: (lefthip.y + righthip.y) / 2
+    };
+    const avgknee = {
+        x: (leftknee.x + rightknee.x) / 2,
+        y: (leftknee.y + rightknee.y) / 2
+    };
 
     const angle = getAngle(avgshoulder, avghip, avgknee);
     return (angle < 90) ? "crunches" : null;
-  };
+};

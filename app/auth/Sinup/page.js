@@ -69,7 +69,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 text-white">
               <div>
                 <label className="text-sm text-gray-400">Username</label>
                 <Input

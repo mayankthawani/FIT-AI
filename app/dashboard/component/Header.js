@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +19,15 @@ export default function Header() {
     { href: "/diet", label: "Provisions", icon: "🍎" },
     { href: "/dashboard/yoga", label: "Meditation Temple", icon: "🧘" },
   ];
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log("User signed out");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
 
   return (
     <header className="fixed w-full top-0 z-50 bg-gray-900/80 backdrop-blur-lg border-b border-cyan-500/20">
@@ -69,7 +80,7 @@ export default function Header() {
             <DropdownMenuContent className="w-56 mt-2 bg-gray-800 border border-cyan-500/20">
               <DropdownMenuItem className="text-cyan-400">Profile</DropdownMenuItem>
               <DropdownMenuItem className="text-cyan-400">Settings</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-400">Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout} className="text-red-400">Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

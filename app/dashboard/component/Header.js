@@ -79,7 +79,10 @@ export default function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mt-2 bg-gray-800 border border-cyan-500/20">
               <DropdownMenuItem className="text-cyan-400">Profile</DropdownMenuItem>
+           
               <DropdownMenuItem className="text-cyan-400">Settings</DropdownMenuItem>
+             
+      
               <DropdownMenuItem onClick={logout} className="text-red-400">Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

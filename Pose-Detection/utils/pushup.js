@@ -8,10 +8,9 @@ export const detectPushup = (keypoints) => {
     const leftwrist = keypoints[15];
     const rightwrist = keypoints[16];
   
-    const avgshoulder = (leftshoulder + rightshoulder) / 2;
-    const avgelbow = (leftelbow + rightelbow) / 2;
-    const avgwrist = (leftwrist + rightwrist) / 2;
     
-    const angle = getAngle(avgshoulder, avgelbow, avgwrist);
-    return (angle < 90) ? "pushdown" : "pushup";
+  
+    const angle = getAngle(leftshoulder, leftelbow, leftwrist);
+    const angle2 = getAngle(rightshoulder, rightelbow, rightwrist);
+    return (angle < 90) ? "pushup" : null;
   };

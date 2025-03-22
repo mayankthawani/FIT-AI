@@ -8,5 +8,5 @@ export const detectSquat = (keypoints) => {
     const avgKneeY = (leftKnee.y + rightKnee.y) / 2;
   
     // ✅ If knees are significantly lower than hips, it's a squat
-    return avgKneeY >= avgHipY * 1.1 ? "Squat" : null;
+    return avgKneeY >= avgHipY *1.1 ? "Squat" : null;
   };

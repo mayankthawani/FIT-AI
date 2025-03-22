@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
+import { detectPushup } from "./utils/pushup";
+// import { detectPushUp } from "./utils/pushup"; // Import push-up detection
 
-const PoseDetection = () => {
+const PoseDetection = ({ pose }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
@@ -72,9 +74,32 @@ const PoseDetection = () => {
         if (poses.landmarks.length > 0) {
           const keypoints = poses.landmarks[0];
 
-          // ✅ Run each pose detection function
-          const detectedPose = detectStanding(keypoints) || detectSquat(keypoints) || "Unknown";
-          setPoseName(detectedPose); // Update UI with pose name
+          let detectedPose = "Unknown";
+
+          if (pose === "squat") {
+            const isSquat = detectSquat(keypoints);
+            // const isStanding = detectStanding(keypoints);
+          
+            if (isSquat) {
+              detectedPose = "Standing";
+            } else {
+              detectedPose = "Squat";
+            }
+          }
+          else if(pose === "pushup") {
+            const isPushUp = detectPushup(keypoints);
+          
+            if (isPushUp) {
+              detectedPose = "PushUp";
+            } else {
+              detectedPose = "Unknown";
+            }
+          }
+          else {
+            detectedPose = detectStanding(keypoints);
+          }
+
+          setPoseName(detectedPose);
 
           // ✅ Draw Keypoints
           keypoints.forEach((point) => {
@@ -104,11 +129,10 @@ const PoseDetection = () => {
         streamRef.current = null;
       }
     };
-  }, []);
+  }, [pose]); // Ensure detection updates when pose changes
 
   return (
     <div className="relative w-full h-screen flex flex-col justify-center items-center">
-      {/* Video feed */}
       <video
         ref={videoRef}
         className="absolute"
@@ -117,15 +141,13 @@ const PoseDetection = () => {
         muted
         playsInline
       />
-      
-      {/* Canvas overlay */}
+
       <canvas
         ref={canvasRef}
         className="absolute"
         style={{ width: "100%", height: "auto", maxWidth: "640px" }}
       />
 
-      {/* Display Detected Pose */}
       <div className="absolute top-5 text-white text-2xl bg-gray-800 px-4 py-2 rounded-md">
         {poseName}
       </div>

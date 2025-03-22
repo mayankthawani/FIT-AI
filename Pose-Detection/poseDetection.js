@@ -171,10 +171,24 @@ const PoseDetection = ({ pose }) => {
             }
           }
           else if(pose === "crunches") {
-            const isCrunches = detectPushup(keypoints);
+            const isCrunches = detectCrunches(keypoints);
           
             if (isCrunches) {
               detectedPose = "Crunches";
+              if (!rep) {
+                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
+                setRep(true);
+              }
+            } else {
+              detectedPose = "Unknown";
+              setRep(false);
+            }
+          }
+          else if(pose === "headrotation") {
+            const isHeadRotation = detectHeadRotation(keypoints);
+          
+            if (isHeadRotation) {
+              detectedPose = "HeadRotation";
               if (!rep) {
                 setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
                 setRep(true);

@@ -1,13 +1,15 @@
-"use client"; // Ensures this runs only on the client side in Next.js
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
+import { detectStanding } from "./utils/standing";
+import { detectSquat } from "./utils/squat";
 
 const PoseDetection = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
-  const [poseName, setPoseName] = useState("Detecting..."); // ✅ Track pose state
+  const [poseName, setPoseName] = useState("Detecting...");
   let poseLandmarker;
 
   useEffect(() => {
@@ -70,8 +72,8 @@ const PoseDetection = () => {
         if (poses.landmarks.length > 0) {
           const keypoints = poses.landmarks[0];
 
-          // ✅ Detect Pose based on Keypoints
-          const detectedPose = recognizePose(keypoints);
+          // ✅ Run each pose detection function
+          const detectedPose = detectStanding(keypoints) || detectSquat(keypoints) || "Unknown";
           setPoseName(detectedPose); // Update UI with pose name
 
           // ✅ Draw Keypoints
@@ -103,25 +105,6 @@ const PoseDetection = () => {
       }
     };
   }, []);
-
-  // ✅ Function to Recognize Poses
-  const recognizePose = (keypoints) => {
-    if (!keypoints) return "Unknown";
-
-    // Get Joint Positions
-    const leftHip = keypoints[23];
-    const rightHip = keypoints[24];
-    const leftKnee = keypoints[25];
-    const rightKnee = keypoints[26];
-
-    // Calculate Knee Heights Relative to Hips
-    const avgHipY = (leftHip.y + rightHip.y) / 2;
-    const avgKneeY = (leftKnee.y + rightKnee.y) / 2;
-
-    // Simple Pose Logic
-    if (avgKneeY > avgHipY * 1.1) return "Standing"; // Knees are much lower
-    return "Squat"; // Default Pose
-  };
 
   return (
     <div className="relative w-full h-screen flex flex-col justify-center items-center">

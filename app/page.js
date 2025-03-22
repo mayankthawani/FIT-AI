@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Toast, ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [activeClass, setActiveClass] = useState('warrior');
@@ -53,7 +54,7 @@ export default function Home() {
             >
               Classes
             </Button>
-            <Button className="bg-gradient-to-r from-cyan-500 to-purple-500">Login</Button>
+            <Link href = "/auth/signin"><Button className="bg-gradient-to-r from-cyan-500 to-purple-500">Login</Button></Link>
           </div>
         </div>
       </nav>
@@ -73,9 +74,11 @@ export default function Home() {
               Transform your workouts into an epic quest. Train, compete, and conquer with AI-powered gameplay.
             </p>
             <div className="flex gap-4 justify-center mt-8">
+              <Link href="/auth/Sinup">
               <Button className="px-8 py-4 text-lg bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 border-none shadow-lg shadow-purple-500/25">
                 Get Started
               </Button>
+              </Link>
               <Button variant="outline" className="px-8 py-4 text-lg border-cyan-500 text-cyan-400 hover:bg-cyan-950">
                 View Leaderboard
               </Button>

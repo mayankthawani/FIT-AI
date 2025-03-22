@@ -14,7 +14,7 @@ export default function WorkoutsPage() {
       icon: "🦵",
       description: "Stand with feet shoulder-width apart, lower your body as if sitting back into a chair, keeping chest up and knees over toes.",
       difficulty: "Intermediate",
-      passingParam: "squats",
+      passingParam: "squat",
       targetMuscles: ["Quadriceps", "Hamstrings", "Glutes"]
     },
     { 

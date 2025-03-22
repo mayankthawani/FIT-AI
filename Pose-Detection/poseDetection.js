@@ -5,6 +5,10 @@ import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
 import { detectPushup } from "./utils/pushup";
+import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
 // import { detectPushUp } from "./utils/pushup"; // Import push-up detection
 
 const PoseDetection = ({ pose }) => {
@@ -12,7 +16,33 @@ const PoseDetection = ({ pose }) => {
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
   const [poseName, setPoseName] = useState("Detecting...");
+  const [user, setUser] = useState(null);
+  const [coins, setCoins] = useState(0);
   let poseLandmarker;
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        
+        // Fetch username from Firestore
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          console.log("User data from Firestore:", userDocSnap.data()); // Debugging
+          setCoins(userDocSnap.data().coins || 0);
+        } else {
+          console.log("No such user in Firestore");
+        }
+      } else {
+        setUser(null);
+        setCoins(0);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const setupCamera = async () => {

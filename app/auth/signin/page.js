@@ -9,8 +9,6 @@ import Link from "next/link";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider, db } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
-import { db } from "@/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 
 export default function SigninPage() {

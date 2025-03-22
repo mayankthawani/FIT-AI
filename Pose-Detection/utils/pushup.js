@@ -3,24 +3,24 @@ import { getAngle } from "./poseUtils";
 export const detectPushup = (keypoints) => {
     const leftshoulder = keypoints[11];
     const rightshoulder = keypoints[12];
-    const lefthip = keypoints[23];
-    const righthip = keypoints[24];
-    const leftankle = keypoints[27];
-    const rightankle = keypoints[28];
+    const leftelbow = keypoints[13];
+    const rightelbow = keypoints[14];
+    const leftwrist = keypoints[15];
+    const rightwrist = keypoints[16];
 
     const avgshoulder = {
         x: (leftshoulder.x + rightshoulder.x) / 2,
         y: (leftshoulder.y + rightshoulder.y) / 2
     };
-    const avghip = {
-        x: (lefthip.x + righthip.x) / 2,
-        y: (lefthip.y + righthip.y) / 2
+    const avgelbow = {
+        x: (leftelbow.x + rightelbow.x) / 2,
+        y: (leftelbow.y + rightelbow.y) / 2
     };
-    const avgankle = {
-        x: (leftankle.x + rightankle.x) / 2,
-        y: (leftankle.y + rightankle.y) / 2
+    const avgwrist = {
+        x: (leftwrist.x + rightwrist.x) / 2,
+        y: (leftwrist.y + rightwrist.y) / 2
     };
 
-    const angle = getAngle(avgshoulder, avghip, avgankle);
+    const angle = getAngle(avgshoulder.x, avgelbow.x, avgwrist.x, avgshoulder.y, avgelbow.y, avgwrist.y);
     return (angle < 45) ? "pushup" : null;
 };

@@ -5,14 +5,66 @@ import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
 import { detectPushup } from "./utils/pushup";
-// import { detectPushUp } from "./utils/pushup"; // Import push-up detection
+import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { detectBicepCurl } from "./utils/bicepcurl";
+
 
 const PoseDetection = ({ pose }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
   const [poseName, setPoseName] = useState("Detecting...");
+  const [user, setUser] = useState(null);
+  const [rep, setRep] = useState(false);
+  const [coins, setCoins] = useState(0);
   let poseLandmarker;
+
+  const updateCoinsInDB = async (userId, newCoins) => {
+    if (!userId){
+      console.error("User not logged in");
+      return;
+    }; // Ensure user is logged in
+  
+    try {
+      const userDocRef = doc(db, "users", userId);
+      await updateDoc(userDocRef, { coins: newCoins });
+      console.log("Coins updated in Firestore:", newCoins);
+    } catch (error) {
+      console.error("Error updating coins:", error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        
+        // Fetch username from Firestore
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          console.log("User data from Firestore:", userDocSnap.data()); // Debugging
+          setCoins(userDocSnap.data().coins || null);
+        } else {
+          console.log("No such user in Firestore");
+        }
+      } else {
+        setUser(null);
+        setCoins(0);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (user && coins !== null) {
+      updateCoinsInDB(user.uid, coins);
+    }
+  }, [coins]); // Ensure coins updates when user changes
 
   useEffect(() => {
     const setupCamera = async () => {
@@ -82,8 +134,13 @@ const PoseDetection = ({ pose }) => {
           
             if (isSquat) {
               detectedPose = "Standing";
+              setRep(false);
             } else {
               detectedPose = "Squat";
+              if (!rep) {
+                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
+                setRep(true);
+              }
             }
           }
           else if(pose === "pushup") {
@@ -91,8 +148,26 @@ const PoseDetection = ({ pose }) => {
           
             if (isPushUp) {
               detectedPose = "PushUp";
+              if (!rep) {
+                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
+                setRep(true);
+              }
             } else {
               detectedPose = "Unknown";
+              setRep(false);
+            }
+          }
+          else if(pose === "bicepcurl"){
+            const isBicepCurl = detectBicepCurl(keypoints);
+            if (isBicepCurl) {
+              detectedPose = "BicepCurl";
+              if (!rep) {
+                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
+                setRep(true);
+              }
+            } else {
+              detectedPose = "Unknown";
+              setRep(false);
             }
           }
           else {

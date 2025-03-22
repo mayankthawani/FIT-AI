@@ -30,7 +30,7 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-lg border-b border-cyan-500/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
-            FitAReena
+            FitARena
           </div>
           <div className="flex gap-6">
             <Button 

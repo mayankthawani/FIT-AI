@@ -5,16 +5,46 @@ import WelcomeSection from "./component/WelcomeSection";
 import LeaderboardSection from "./component/LeaderboardSection";
 import ProgressSection from "./component/ProgressSection";
 import MotivationSection from "./component/MotivationSection";
+import Rewards from "./component/Rewards";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
+const motivationalContent = [
+  {
+    emoji: "💪",
+    quote: "Every rep brings you closer to your goals",
+    tip: "Focus on form over speed"
+  },
+  {
+    emoji: "🌟",
+    quote: "Your only competition is yourself",
+    tip: "Track your progress, celebrate small wins"
+  },
+  {
+    emoji: "🎯",
+    quote: "Consistency over perfection",
+    tip: "Show up every day, even if just for 5 minutes"
+  },
+  {
+    emoji: "🌅",
+    quote: "Each morning is a new beginning",
+    tip: "Start your day with positive intentions"
+  },
+  {
+    emoji: "🚀",
+    quote: "Push past your limits",
+    tip: "Challenge yourself with one extra rep"
+  }
+];
+
 export default function Dashboard() {
   const [activePage, setActivePage] = useState('home');
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
+  const [totalCoins, setTotalCoins] = useState(0); // Add this state
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -82,37 +112,40 @@ export default function Dashboard() {
           <div className="container mx-auto p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               {/* Quick Stats Cards */}
-              <div className="bg-gray-800/50 rounded-lg border border-cyan-500/20 p-4">
-                <div className="text-2xl font-bold">{username}</div>
-              </div>
+
+
               {/* Add more quick stat cards */}
             </div>
 
             {/* Dynamic Content Based on Active Page */}
             <div className="space-y-6">
               {activePage === 'home' && <WelcomeSection username={username} />}
-              {activePage === 'progress' && <ProgressSection />}
+              {activePage === 'progress' && <ProgressSection setTotalCoins={setTotalCoins} />}
               {activePage === 'leaderboard' && <LeaderboardSection />}
               {activePage === 'motivation' && <MotivationSection />}
+              {activePage === 'rewards' && <Rewards totalCoins={totalCoins} />}
             </div>
           </div>
         </main>
 
-        {/* Right Sidebar - Activity Feed */}
+        {/* Replace the Right Sidebar content */}
         <aside className="hidden lg:block w-80 bg-gray-900/50 backdrop-blur-md border-l border-cyan-500/20 p-4">
-          <h3 className="text-lg font-bold text-cyan-400 mb-4">Activity Feed</h3>
+          <h3 className="text-lg font-bold text-cyan-400 mb-4">Daily Motivation</h3>
           <div className="space-y-4">
-            {/* Activity Items */}
-            <div className="bg-gray-800/50 rounded-lg p-3 border border-cyan-500/10">
-              <div className="flex items-center gap-2">
-                <span className="text-green-400">🎯</span>
-                <div>
-                  <p className="text-sm text-gray-300">Completed Daily Quest</p>
-                  <p className="text-xs text-gray-500">2 minutes ago</p>
+            {motivationalContent.map((item, index) => (
+              <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-cyan-500/10 transform transition-all duration-300 hover:scale-105">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-2xl">{item.emoji}</span>
+                  <p className="text-sm font-semibold text-gray-300">{item.quote}</p>
                 </div>
+                <p className="text-xs text-cyan-400 ml-9">{item.tip}</p>
               </div>
-            </div>
-            {/* Add more activity items */}
+            ))}
+          </div>
+          <div className="mt-6 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-lg border border-cyan-500/20">
+            <p className="text-center text-sm text-gray-400">
+              "The journey of a thousand miles begins with a single step"
+            </p>
           </div>
         </aside>
       </div>

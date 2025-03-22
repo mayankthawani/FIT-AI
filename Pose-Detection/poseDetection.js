@@ -170,6 +170,20 @@ const PoseDetection = ({ pose }) => {
               setRep(false);
             }
           }
+          else if(pose === "crunches") {
+            const isCrunches = detectPushup(keypoints);
+          
+            if (isCrunches) {
+              detectedPose = "Crunches";
+              if (!rep) {
+                setCoins((prevCoins) => prevCoins + 1); // Updates state, triggers useEffect
+                setRep(true);
+              }
+            } else {
+              detectedPose = "Unknown";
+              setRep(false);
+            }
+          }
           else {
             detectedPose = detectStanding(keypoints);
           }

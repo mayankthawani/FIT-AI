@@ -2,16 +2,42 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { auth, db } from "@/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function ProgressSection({ setTotalCoins }) {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
+          setTotalCoins(userDoc.data().coins || 0);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [setTotalCoins]);
+
   const stats = [
-    { label: "Push-Ups", count: 120, targetCount: 150, color: "border-cyan-500", coins: 240 },
-    { label: "Squats", count: 90, targetCount: 150, color: "border-purple-500", coins: 180 },
-    { label: "Bicep Curls", count: 150, targetCount: 200, color: "border-pink-500", coins: 300 },
-    { label: "Plank", count: 5, targetCount: 10, color: "border-blue-500", coins: 50 },
-    { label: "Lunges", count: 80, targetCount: 100, color: "border-green-500", coins: 160 },
-    { label: "Head Rotator", count: 30, targetCount: 50, color: "border-yellow-500", coins: 60 },
+    { label: "Push-Ups", count: userData?.pushups || 0, targetCount: 150, color: "border-cyan-500", coins: userData?.pushupCoins || 0 },
+    { label: "Squats", count: userData?.squats || 0, targetCount: 150, color: "border-purple-500", coins: userData?.squatCoins || 0 },
+    { label: "Bicep Curls", count: userData?.bicepCurls || 0, targetCount: 200, color: "border-pink-500", coins: userData?.bicepCurlCoins || 0 },
+    { label: "Plank", count: userData?.planks || 0, targetCount: 10, color: "border-blue-500", coins: userData?.plankCoins || 0 },
+    { label: "Lunges", count: userData?.lunges || 0, targetCount: 100, color: "border-green-500", coins: userData?.lungeCoins || 0 },
+    { label: "Head Rotator", count: userData?.headRotations || 0, targetCount: 50, color: "border-yellow-500", coins: userData?.headRotationCoins || 0 },
   ];
 
   // Updated star calculation logic
@@ -23,12 +49,11 @@ export default function ProgressSection({ setTotalCoins }) {
   // Calculate completed quests (exercises with 5 or more counts)
   const completedQuests = stats.filter(stat => stat.count >= 5).length;
 
-  const totalCoins = stats.reduce((acc, stat) => acc + stat.coins, 0);
+  const totalCoins = userData?.coins || 0;
 
-  // Update parent component with total coins
-  useEffect(() => {
-    setTotalCoins(totalCoins);
-  }, [totalCoins, setTotalCoins]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="py-4">

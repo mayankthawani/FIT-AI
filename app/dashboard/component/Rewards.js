@@ -7,42 +7,42 @@ const fitnessProducts = [
   {
     name: "Premium Yoga Mat",
     originalPrice: 29.99,
-    coinPrice: 300,
+    coinPrice: 30000,
     image: "🧘‍♀️",
     description: "Non-slip, eco-friendly yoga mat"
   },
   {
     name: "Resistance Bands Set",
     originalPrice: 24.99,
-    coinPrice: 250,
+    coinPrice: 25000,
     image: "💪",
     description: "Set of 5 different resistance levels"
   },
   {
     name: "Smart Water Bottle",
     originalPrice: 19.99,
-    coinPrice: 200,
+    coinPrice: 20000,
     image: "🚰",
     description: "Tracks water intake with LED display"
   },
   {
     name: "Jump Rope",
     originalPrice: 14.99,
-    coinPrice: 150,
+    coinPrice: 15000,
     image: "🎯",
     description: "Adjustable length, ball bearing system"
   },
   {
     name: "Fitness Gloves",
     originalPrice: 19.99,
-    coinPrice: 200,
+    coinPrice: 20000,
     image: "🧤",
     description: "Anti-slip workout gloves"
   },
   {
     name: "Gym Towel Set",
     originalPrice: 9.99,
-    coinPrice: 100,
+    coinPrice: 10000,
     image: "🧺",
     description: "Pack of 3 microfiber towels"
   }

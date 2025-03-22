@@ -110,7 +110,7 @@ export default function SigninPage() {
               </Button>
 
               <p className="text-center text-sm text-gray-400 mt-4">
-                Don't have an account?
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/auth/Sinup"
                   className="text-cyan-400 hover:text-cyan-300"

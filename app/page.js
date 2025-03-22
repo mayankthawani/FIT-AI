@@ -205,7 +205,7 @@ export default function Home() {
 
             {/* Tab Content */}
             <TabsContent value="quests" className="text-center text-gray-300">
-              Embark on daily quests like "Run 5km" or "Complete 50 push-ups" to earn experience points.
+              Embark on daily quests like &quot;Run 5km&quot; or &quot;Complete 50 push-ups&quot; to earn experience points.
             </TabsContent>
             <TabsContent value="battle" className="text-center text-gray-300">
               Enter the Battle Arena to challenge other players in real-time fitness duels.
@@ -283,9 +283,9 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <Tabs defaultValue="story1">
               <TabsList className="grid grid-cols-3 mb-8">
-                <TabsTrigger value="story1">Sarah's Journey</TabsTrigger>
-                <TabsTrigger value="story2">Mike's Quest</TabsTrigger>
-                <TabsTrigger value="story3">Lisa's Victory</TabsTrigger>
+                <TabsTrigger value="story1">Sarah&apos;s Journey</TabsTrigger>
+                <TabsTrigger value="story2">Mike&apos;s Quest</TabsTrigger>
+                <TabsTrigger value="story3">Lisa&apos;s Victory</TabsTrigger>
               </TabsList>
               <TabsContent value="story1" className="text-gray-300">Sarah transformed her life with FitQuest...</TabsContent>
               <TabsContent value="story2" className="text-gray-300">Mike discovered his inner strength...</TabsContent>

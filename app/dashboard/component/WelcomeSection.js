@@ -36,7 +36,7 @@ export default function WelcomeSection({ username }) {
             className="text-center mt-12 mb-8"
           >
             <p className="text-xl text-yellow-300 font-gaming mb-2 animate-pulse">DAILY QUEST AVAILABLE!</p>
-            <p className="text-2xl text-cyan-300">Ready to conquer today's fitness challenge?</p>
+            <p className="text-2xl text-cyan-300">Ready to conquer today&apos;s fitness challenge?</p>
           </motion.div>
 
           <div className="mt-8 flex gap-4">

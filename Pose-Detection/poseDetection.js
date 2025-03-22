@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
+import { detectPushup } from "./utils/pushup";
 // import { detectPushUp } from "./utils/pushup"; // Import push-up detection
 
 const PoseDetection = ({ pose }) => {
@@ -84,10 +85,17 @@ const PoseDetection = ({ pose }) => {
             } else {
               detectedPose = "Squat";
             }
-            // else if (isStanding) {
-            //   detectedPose = "Standing";
-            // }
-          } else {
+          }
+          else if(pose === "pushup") {
+            const isPushUp = detectPushup(keypoints);
+          
+            if (isPushUp) {
+              detectedPose = "PushUp";
+            } else {
+              detectedPose = "Unknown";
+            }
+          }
+          else {
             detectedPose = detectStanding(keypoints);
           }
 

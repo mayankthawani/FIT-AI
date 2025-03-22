@@ -14,5 +14,5 @@ export const detectPushup = (keypoints) => {
   
     // ✅ If knees are significantly lower than hips, it's a squat
     const angle = getAngle(avgshoulder, avgelbow, avgwrist);
-    return (angle < 90) ? "pushdown" : "pushup";
+    return (angle < 90) ? "pushup" : null;
   };

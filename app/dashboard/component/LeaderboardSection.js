@@ -1,13 +1,41 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 export default function LeaderboardSection() {
-  const players = [
-    { rank: 1, name: "DragonSlayer", points: 2500, badge: "🏆" },
-    { rank: 2, name: "FitWarrior", points: 2350, badge: "⚔️" },
-    { rank: 3, name: "QuestMaster", points: 2200, badge: "🎯" },
-  ];
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, "users");
+        const querySnapshot = await getDocs(usersCollection);
+        
+        const userData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          name: doc.data().username || "Anonymous",
+          points: doc.data().coins || 0,
+        }));
+
+        // Sort users by coins (points) in descending order
+        const sortedUsers = userData.sort((a, b) => b.points - a.points)
+          .map((user, index) => ({
+            ...user,
+            rank: index + 1,
+            badge: index === 0 ? "🏆" : index === 1 ? "⚔️" : "🎯"
+          }));
+
+        setPlayers(sortedUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <section className="min-h-screen w-full flex items-center justify-center bg-gray-900/90 py-16">
@@ -23,7 +51,7 @@ export default function LeaderboardSection() {
         <div className="grid gap-4 w-full">
           {players.map((player) => (
             <Card 
-              key={player.rank}
+              key={player.id}
               className="bg-gray-800/50 border border-gray-700 hover:border-cyan-500/50 transition-all"
             >
               <CardContent className="p-6 flex items-center justify-between">

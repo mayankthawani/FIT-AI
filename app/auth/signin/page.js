@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "@/firebaseConfig";
+import { auth, googleProvider, db } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc } from "firebase/firestore";
+
 
 export default function SigninPage() {
   const router = useRouter();
@@ -32,7 +33,8 @@ export default function SigninPage() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      const userDoc = await  getDoc(db, "users", user.uid);
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await  getDoc(userRef);
       if (userDoc.exists()) {
         console.log("User data from Firestore:", userDoc.data());
         router.push("/dashboard");

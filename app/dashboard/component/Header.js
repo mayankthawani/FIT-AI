@@ -17,7 +17,7 @@ export default function Header() {
     { href: "/dashboard", label: "Quest Hub", icon: "🏰" },
     { href: "./dashboard/workouts", label: "Training Arena", icon: "⚔️" },
     { href: "/diet", label: "Provisions", icon: "🍎" },
-    { href: "/yoga", label: "Meditation Temple", icon: "🧘" },
+    { href: "/dashboard/yoga", label: "Meditation Temple", icon: "🧘" },
   ];
 
   const logout = async () => {

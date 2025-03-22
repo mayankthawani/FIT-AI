@@ -47,7 +47,7 @@ export default function WorkoutsPage() {
       icon: "💪",
       description: "Hold dumbbells at sides, palms forward. Curl weights toward shoulders while keeping elbows fixed at sides.",
       difficulty: "Intermediate",
-      passingParam: "bicepcurls",
+      passingParam: "bicepcurl",
       targetMuscles: ["Biceps", "Forearms"]
     },
     { 

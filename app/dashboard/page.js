@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./component/Header";
 import WelcomeSection from "./component/WelcomeSection";
 import LeaderboardSection from "./component/LeaderboardSection";
@@ -7,9 +7,40 @@ import ProgressSection from "./component/ProgressSection";
 import MotivationSection from "./component/MotivationSection";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function Dashboard() {
   const [activePage, setActivePage] = useState('home');
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        
+        // Fetch username from Firestore
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          console.log("User data from Firestore:", userDocSnap.data()); // Debugging
+          setUsername(userDocSnap.data().username || "No Username");
+        } else {
+          console.log("No such user in Firestore");
+          setUsername("User");
+        }
+      } else {
+        setUser(null);
+        setUsername("Guest");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   const menuItems = [
     { id: 'home', icon: '🏰', label: 'Hub' },
@@ -52,16 +83,14 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               {/* Quick Stats Cards */}
               <div className="bg-gray-800/50 rounded-lg border border-cyan-500/20 p-4">
-                <div className="text-cyan-400 text-sm">Current Level</div>
-                <div className="text-2xl font-bold">Level 7</div>
-                <div className="text-gray-400 text-xs">+2 levels this week</div>
+                <div className="text-2xl font-bold">{username}</div>
               </div>
               {/* Add more quick stat cards */}
             </div>
 
             {/* Dynamic Content Based on Active Page */}
             <div className="space-y-6">
-              {activePage === 'home' && <WelcomeSection />}
+              {activePage === 'home' && <WelcomeSection username={username} />}
               {activePage === 'progress' && <ProgressSection />}
               {activePage === 'leaderboard' && <LeaderboardSection />}
               {activePage === 'motivation' && <MotivationSection />}

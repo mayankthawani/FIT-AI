@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; 
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,8 +9,10 @@ import Link from "next/link";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDoc } from "firebase/firestore";
 
 export default function SigninPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,6 +22,7 @@ export default function SigninPage() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("User signed in:", result.user);
+      router.push("/dashboard");
     } catch (error) {
       console.error("Google Sign-in Error:", error);
     }
@@ -27,7 +31,14 @@ export default function SigninPage() {
   const signIn = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("User signed in:", userCredential.user);
+      const user = userCredential.user;
+      const userDoc = await  getDoc(db, "users", user.uid);
+      if (userDoc.exists()) {
+        console.log("User data from Firestore:", userDoc.data());
+        router.push("/dashboard");
+      } else {
+        console.log("Firestore document missing!");
+      }
     } catch (error) {
       console.error("Sign-in Error:", error);
     }

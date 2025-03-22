@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "@/firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SigninPage() {
   const [formData, setFormData] = useState({
@@ -12,9 +15,29 @@ export default function SigninPage() {
     password: "",
   });
 
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("User signed in:", result.user);
+    } catch (error) {
+      console.error("Google Sign-in Error:", error);
+    }
+  };
+
+  const signIn = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User signed in:", userCredential.user);
+    } catch (error) {
+      console.error("Sign-in Error:", error);
+    }
+  };
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your signin logic here
+    // Add your signin logic here'
+    signIn(formData.email, formData.password);
     console.log(formData);
   };
 

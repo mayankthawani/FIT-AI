@@ -1,15 +1,17 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "@/firebaseConfig";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, setDoc, doc } from "firebase/firestore";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,30 +19,31 @@ export default function SignupPage() {
     confirmPassword: ""
   });
 
-  const signUp = async (email, password) => {
+  const signUp = async (email, password, username) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          username: formData.username,
-          email: formData.email,
-          coins: 0,
-          createdAt: new Date(),
-          badges: []
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-      console.log("User signed up:", userCredential.user);
+      const user = userCredential.user;
+  
+      // Store user info in Firestore using user.uid as document ID
+      await setDoc(doc(db, "users", user.uid), {
+        username: username,
+        email: email,
+        coins: 0,
+        createdAt: new Date(),
+        badges: []
+      });
+  
+      console.log("User signed up and stored in Firestore:", user);
+      router.push("/dashboard");
     } catch (error) {
-      console.error("Sign-up Error:", error);
+      console.error("Error adding document:", error);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your signup logic here
-    signUp(formData.email, formData.password);
+    signUp(formData.email, formData.password, formData.username);
     console.log(formData);
   };
 

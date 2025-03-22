@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-export default function WelcomeSection() {
+export default function WelcomeSection({ username }) {
   return (
     <section className="h-screen flex items-center justify-center relative">
       <div className="relative h-screen w-screen bg-gradient-to-b from-gray-900 to-purple-900 text-white overflow-hidden">
@@ -17,7 +17,7 @@ export default function WelcomeSection() {
           className="relative z-10 flex flex-col items-center justify-center h-full w-full px-6"
         >
           <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-            Welcome Back, Warrior!
+            Welcome Back, {username}
           </h1>
           <p className="mt-6 text-xl text-cyan-300">Ready for today's fitness quest?</p>
           <div className="mt-8 flex gap-4">

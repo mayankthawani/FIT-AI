@@ -68,7 +68,7 @@ export default function SigninPage() {
               <p className="text-gray-400 mt-2">Continue your fitness journey</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className=" text-white space-y-4">
               <div>
                 <label className="text-sm text-gray-400">Email</label>
                 <Input

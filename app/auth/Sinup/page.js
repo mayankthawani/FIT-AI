@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "@/firebaseConfig";
+import { addDoc, collection } from "firebase/firestore";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -14,9 +17,30 @@ export default function SignupPage() {
     confirmPassword: ""
   });
 
+  const signUp = async (email, password) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          username: formData.username,
+          email: formData.email,
+          coins: 0,
+          createdAt: new Date(),
+          badges: []
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+      console.log("User signed up:", userCredential.user);
+    } catch (error) {
+      console.error("Sign-up Error:", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your signup logic here
+    signUp(formData.email, formData.password);
     console.log(formData);
   };
 

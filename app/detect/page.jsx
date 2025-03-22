@@ -12,7 +12,7 @@ export default function Detect(){
     return (
         <div>
             <button onClick={handleToggle}>Toggle Video</button>
-            {video && <PoseDetection pose="pushup" />}
+            {video && <PoseDetection pose="squat" />}
         </div>
     );
 }

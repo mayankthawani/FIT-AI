@@ -16,23 +16,27 @@ export default function SignupPage() {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const signUp = async (email, password, username) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-  
+
       // Store user info in Firestore using user.uid as document ID
       await setDoc(doc(db, "users", user.uid), {
         username: username,
         email: email,
         coins: 0,
         createdAt: new Date(),
-        badges: []
+        badges: [],
       });
-  
+
       console.log("User signed up and stored in Firestore:", user);
       router.push("/dashboard");
     } catch (error) {
@@ -60,7 +64,9 @@ export default function SignupPage() {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
                 Join the Quest
               </h1>
-              <p className="text-gray-400 mt-2">Begin your fitness adventure today</p>
+              <p className="text-gray-400 mt-2">
+                Begin your fitness adventure today
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 text-white">
@@ -69,8 +75,10 @@ export default function SignupPage() {
                 <Input
                   type="text"
                   placeholder="Enter username"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
                 />
               </div>
 
@@ -79,8 +87,10 @@ export default function SignupPage() {
                 <Input
                   type="email"
                   placeholder="Enter email"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
 
@@ -89,23 +99,32 @@ export default function SignupPage() {
                 <Input
                   type="password"
                   placeholder="Enter password"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="text-sm text-gray-400">Confirm Password</label>
+                <label className="text-sm text-gray-400">
+                  Confirm Password
+                </label>
                 <Input
                   type="password"
                   placeholder="Confirm password"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                 />
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
               >
                 Sign Up
@@ -113,7 +132,10 @@ export default function SignupPage() {
 
               <p className="text-center text-sm text-gray-400 mt-4">
                 Already have an account?{" "}
-                <Link href="/auth/signin" className="text-cyan-400 hover:text-cyan-300">
+                <Link
+                  href="/auth/signin"
+                  className="text-cyan-400 hover:text-cyan-300"
+                >
                   Login here
                 </Link>
               </p>

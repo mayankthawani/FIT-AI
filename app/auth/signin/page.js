@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,9 @@ import Link from "next/link";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider, db } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { getDoc } from "firebase/firestore";
 
+import { db } from "@/firebaseConfig";
+import { getDoc, doc } from "firebase/firestore";
 
 export default function SigninPage() {
   const router = useRouter();
@@ -31,10 +32,17 @@ export default function SigninPage() {
 
   const signIn = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
+
+      // ✅ Correct Firestore document reference
       const userRef = doc(db, "users", user.uid);
-      const userDoc = await  getDoc(userRef);
+      const userDoc = await getDoc(userRef);
+
       if (userDoc.exists()) {
         console.log("User data from Firestore:", userDoc.data());
         router.push("/dashboard");
@@ -45,7 +53,6 @@ export default function SigninPage() {
       console.error("Sign-in Error:", error);
     }
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,17 +74,21 @@ export default function SigninPage() {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
                 Welcome Back
               </h1>
-              <p className="text-gray-400 mt-2">Continue your fitness journey</p>
+              <p className="text-gray-400 mt-2">
+                Continue your fitness journey
+              </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className=" text-white space-y-4">
               <div>
                 <label className="text-sm text-gray-400">Email</label>
                 <Input
                   type="email"
                   placeholder="Enter email"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
 
@@ -86,13 +97,15 @@ export default function SigninPage() {
                 <Input
                   type="password"
                   placeholder="Enter password"
-                  className="mt-1 bg-gray-900/50 border-gray-700"
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  className="mt-1 text-white bg-gray-900/50 border-gray-700"
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
               >
                 Sign In
@@ -100,7 +113,10 @@ export default function SigninPage() {
 
               <p className="text-center text-sm text-gray-400 mt-4">
                 Don't have an account?{" "}
-                <Link href="/auth/Sinup" className="text-cyan-400 hover:text-cyan-300">
+                <Link
+                  href="/auth/Sinup"
+                  className="text-cyan-400 hover:text-cyan-300"
+                >
                   Sign up here
                 </Link>
               </p>

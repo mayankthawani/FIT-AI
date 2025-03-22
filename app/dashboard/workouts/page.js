@@ -72,6 +72,10 @@ export default function WorkoutsPage() {
     core: [exercises[4], exercises[5]], // Planks, Lunges
   };
 
+  const handleClick = () => {
+    
+  }
+
   return (
     <section className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-violet-900/20 to-black relative">
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-[1]" />
@@ -84,6 +88,7 @@ export default function WorkoutsPage() {
       >
         {Object.entries(exerciseCategories).map(([category, exercises], categoryIndex) => (
           <motion.div
+          onClick={handleClick}
             key={category}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

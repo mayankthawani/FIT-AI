@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 
-export default function ProgressSection({ setTotalCoins }) {
+export default function ProgressSection({ setTotalCoins, setBicep, setCrunches, setHeader, setLunges, setPushup, setSquat }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +20,12 @@ export default function ProgressSection({ setTotalCoins }) {
         if (userDoc.exists()) {
           setUserData(userDoc.data());
           setTotalCoins(userDoc.data().coins || 0);
+          setPushup(userDoc.data().pushups || 0);
+          setSquat(userDoc.data().squats || 0);
+          setHeader(userDoc.data().headers || 0);
+          setBicep(userDoc.data().biceps || 0);
+          setLunges(userDoc.data().lunges || 0);
+          setCrunches(userDoc.data().crunches || 0);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -32,12 +38,12 @@ export default function ProgressSection({ setTotalCoins }) {
   }, [setTotalCoins]);
 
   const stats = [
-    { label: "Push-Ups", count: userData?.pushups || 0, targetCount: 150, color: "border-cyan-500", coins: userData?.pushupCoins || 80 },
-    { label: "Squats", count: userData?.squats || 0, targetCount: 150, color: "border-purple-500", coins: userData?.squatCoins || 32 },
-    { label: "Bicep Curls", count: userData?.bicepCurls || 0, targetCount: 200, color: "border-pink-500", coins: userData?.bicepCurlCoins || 21 },
-    { label: "Plank", count: userData?.planks || 0, targetCount: 10, color: "border-blue-500", coins: userData?.plankCoins || 29 },
-    { label: "Lunges", count: userData?.lunges || 0, targetCount: 100, color: "border-green-500", coins: userData?.lungeCoins || 45 },
-    { label: "Head Rotator", count: userData?.headRotations || 0, targetCount: 50, color: "border-yellow-500", coins: userData?.headRotationCoins || 10 },
+    { label: "Push-Ups", count: userData?.pushups || 0, targetCount: 150, color: "border-cyan-500", coins: userData?.pushups || 80 },
+    { label: "Squats", count: userData?.squats || 0, targetCount: 150, color: "border-purple-500", coins: userData?.squats || 32 },
+    { label: "Bicep Curls", count: userData?.biceps || 0, targetCount: 200, color: "border-pink-500", coins: userData?.biceps || 21 },
+    { label: "Crunches", count: userData?.crunches || 0, targetCount: 10, color: "border-blue-500", coins: userData?.plankCoins || 29 },
+    { label: "Lunges", count: userData?.lunges || 0, targetCount: 100, color: "border-green-500", coins: userData?.lunges || 45 },
+    { label: "Head Rotator", count: userData?.headers || 0, targetCount: 50, color: "border-yellow-500", coins: userData?.headers|| 10 },
   ];
 
   // Updated star calculation logic

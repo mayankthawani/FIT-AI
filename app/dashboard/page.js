@@ -44,7 +44,13 @@ export default function Dashboard() {
   const [activePage, setActivePage] = useState('home');
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
-  const [totalCoins, setTotalCoins] = useState(0); // Add this state
+  const [totalCoins, setTotalCoins] = useState(0);
+  const [pushup, setPushup] = useState(0);
+  const [squat, setSquat] = useState(0);
+  const [header, setHeader] = useState(0);
+  const [bicep, setBicep] = useState(0);
+  const [lunges, setLunges] = useState(0);
+  const [crunches, setCrunches] = useState(0);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -119,7 +125,15 @@ export default function Dashboard() {
             {/* Dynamic Content Based on Active Page */}
             <div className="space-y-6">
               {activePage === 'home' && <WelcomeSection username={username} />}
-              {activePage === 'progress' && <ProgressSection setTotalCoins={setTotalCoins} />}
+              {activePage === 'progress' && <ProgressSection
+               setTotalCoins={setTotalCoins} 
+               setBicep={setBicep}  
+                setCrunches={setCrunches}
+                setHeader={setHeader}
+                setLunges={setLunges}
+                setPushup={setPushup}
+                setSquat={setSquat}
+               />}
               {activePage === 'leaderboard' && <LeaderboardSection />}
               {activePage === 'motivation' && <MotivationSection />}
               {activePage === 'rewards' && <Rewards totalCoins={totalCoins} />}

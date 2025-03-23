@@ -35,6 +35,12 @@ export default function SignupPage() {
         coins: 0,
         createdAt: new Date(),
         badges: [],
+        pushups: 0,
+        squats: 0,
+        headers: 0,
+        biceps: 0,
+        lunges: 0,
+        crunches: 0,
       });
 
       console.log("User signed up and stored in Firestore:", user);

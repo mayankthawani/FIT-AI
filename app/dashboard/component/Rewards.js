@@ -2,6 +2,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 const fitnessProducts = [
   {
@@ -48,7 +50,30 @@ const fitnessProducts = [
   }
 ];
 
-export default function Rewards({ totalCoins = 0 }) {
+const updateCoinsInDB = async (userId, newCoins) => {
+  if (!userId) {
+    console.error("User not logged in");
+    return;
+  }
+
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, { coins: newCoins });
+    console.log("Coins updated in Firestore:", newCoins);
+  } catch (error) {
+    console.error("Error updating coins:", error);
+  }
+};
+
+export default function Rewards({ totalCoins, userId, setTotalCoins }) {
+  const handleRedeem = async (product) => {
+    const newCoins = totalCoins - product.coinPrice;
+    if (newCoins >= 0) {
+      await updateCoinsInDB(userId, newCoins);
+      setTotalCoins(newCoins);
+    }
+  };
+
   return (
     <section className="py-4">
       <motion.div
@@ -98,6 +123,7 @@ export default function Rewards({ totalCoins = 0 }) {
                         : 'opacity-50 cursor-not-allowed'
                     }`}
                     disabled={totalCoins < product.coinPrice}
+                    onClick={() => handleRedeem(product)}
                   >
                     Redeem
                   </Button>

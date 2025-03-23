@@ -10,6 +10,7 @@ import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instan
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { detectBicepCurl } from "./utils/bicepcurl";
+import { detectLunges } from "./utils/lunges";
 
 
 const PoseDetection = ({ pose }) => {
@@ -219,6 +220,23 @@ const PoseDetection = ({ pose }) => {
               }
             } else {
               detectedPose = "Center";
+              if(repRef.current) {
+                repRef.current = false;
+              }
+            }
+          }
+          else if(pose === "lunges") {
+            const isLunges = detectLunges(keypoints);
+          
+            if (isLunges) {
+              detectedPose = "Lunges";
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                repRef.current = true;
+              }
+            } else {
+              detectedPose = "Unknown";
               if(repRef.current) {
                 repRef.current = false;
               }

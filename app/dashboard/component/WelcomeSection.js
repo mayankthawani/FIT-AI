@@ -56,7 +56,7 @@ export default function WelcomeSection({ username }) {
               </Tooltip>
             </TooltipProvider>
 
-            <TooltipProvider>
+            {/* <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
                   <Button variant="outline" className="px-8 py-3 border-2 border-cyan-500 text-cyan-400 hover:border-purple-500 hover:text-purple-400 transform hover:scale-[1.08] transition-all duration-200 hover:bg-gray-800/50 hover:shadow-lg hover:shadow-purple-500/30">
@@ -67,7 +67,7 @@ export default function WelcomeSection({ username }) {
                   <p className="text-white">View your fitness journey progress</p>
                 </TooltipContent>
               </Tooltip>
-            </TooltipProvider>
+            </TooltipProvider> */}
           </div>
         </motion.div>
       </div>

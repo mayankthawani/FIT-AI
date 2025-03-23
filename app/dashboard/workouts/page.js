@@ -50,16 +50,16 @@ export default function WorkoutsPage() {
       passingParam: "bicepcurl",
       targetMuscles: ["Biceps", "Forearms"]
     },
-    { 
-      name: "Planks", 
-      sets: 3, 
-      time: "30s", 
-      muscle: "Core", 
+    {
+      name: "Crunches",
+      sets: 3,
+      reps: 15,
+      muscle: "Core",
       icon: "🏋️",
-      description: "Hold a straight-arm plank position, engaging core and keeping body in straight line from head to heels.",
+      description: "Lie on your back with knees bent and feet flat on the floor. Place hands behind your head, lift your upper body towards your knees, and then lower back down.",
       difficulty: "Intermediate",
-      passingParam: "planks",
-      targetMuscles: ["Core", "Shoulders", "Back"]
+      passingParam: "crunches",
+      targetMuscles: ["Core", "Abdominals"]
     },
     { 
       name: "Lunges", 

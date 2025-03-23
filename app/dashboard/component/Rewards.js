@@ -6,42 +6,42 @@ import { motion } from "framer-motion";
 const fitnessProducts = [
   {
     name: "Premium Yoga Mat",
-    originalPrice: 29.99,
+    originalPrice: 600,
     coinPrice: 30000,
     image: "🧘‍♀️",
     description: "Non-slip, eco-friendly yoga mat"
   },
   {
     name: "Resistance Bands Set",
-    originalPrice: 24.99,
+    originalPrice: 400,
     coinPrice: 25000,
     image: "💪",
     description: "Set of 5 different resistance levels"
   },
   {
     name: "Smart Water Bottle",
-    originalPrice: 19.99,
+    originalPrice: 500,
     coinPrice: 20000,
     image: "🚰",
     description: "Tracks water intake with LED display"
   },
   {
     name: "Jump Rope",
-    originalPrice: 14.99,
+    originalPrice: 400,
     coinPrice: 15000,
     image: "🎯",
     description: "Adjustable length, ball bearing system"
   },
   {
     name: "Fitness Gloves",
-    originalPrice: 19.99,
+    originalPrice: 400,
     coinPrice: 20000,
     image: "🧤",
     description: "Anti-slip workout gloves"
   },
   {
     name: "Gym Towel Set",
-    originalPrice: 9.99,
+    originalPrice: 200,
     coinPrice: 10000,
     image: "🧺",
     description: "Pack of 3 microfiber towels"
@@ -83,7 +83,7 @@ export default function Rewards({ totalCoins = 0 }) {
                 
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex flex-col">
-                    <span className="text-gray-400 line-through">${product.originalPrice}</span>
+                    <span className="text-gray-400 line-through">₹{product.originalPrice}</span>
                     <div className="flex items-center gap-1">
                       <span className="text-lg">🪙</span>
                       <span className="text-yellow-400 font-bold">{product.coinPrice}</span>

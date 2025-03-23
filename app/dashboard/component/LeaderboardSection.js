@@ -62,7 +62,7 @@ export default function LeaderboardSection() {
                     <div className="text-sm text-gray-400">Rank #{player.rank}</div>
                   </div>
                 </div>
-                <div className="text-xl font-bold text-purple-400">{player.points} XP</div>
+                <div className="text-xl font-bold text-purple-400">{player.points} 🪙</div>
               </CardContent>
             </Card>
           ))}

@@ -21,6 +21,8 @@ const PoseDetection = ({ pose }) => {
   const repRef = useRef(false);
   const [coins, setCoins] = useState(0);
   const [count, setCount] = useState(0);
+  const [leftRotations, setLeftRotations] = useState(0);
+  const [rightRotations, setRightRotations] = useState(0);
   let poseLandmarker;
 
   const updateCoinsInDB = async (userId, newCoins) => {
@@ -199,17 +201,24 @@ const PoseDetection = ({ pose }) => {
             }
           }
           else if(pose === "head-rotate") {
-            const isHeadRotation = detectHeadRotation(keypoints);
+            const headRotation = detectHeadRotation(keypoints);
           
-            if (isHeadRotation) {
-              detectedPose = "HeadRotation";
+            if (headRotation === "HeadRotation Left") {
+              detectedPose = "Head Left";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
+                setLeftRotations(prev => prev + 1);
+                repRef.current = true;
+              }
+            } else if (headRotation === "HeadRotation Right") {
+              detectedPose = "Head Right";
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setRightRotations(prev => prev + 1);
                 repRef.current = true;
               }
             } else {
-              detectedPose = "Unknown";
+              detectedPose = "Center";
               if(repRef.current) {
                 repRef.current = false;
               }
@@ -270,9 +279,15 @@ const PoseDetection = ({ pose }) => {
 
       <div className="absolute top-5 text-white text-2xl bg-gray-800 px-4 py-2 rounded-md">
         {poseName}
-        <div>
-          Count: {count}
-        </div>
+        {pose === "head-rotate" ? (
+          <div className="text-lg">
+            Left: {leftRotations} | Right: {rightRotations}
+          </div>
+        ) : (
+          <div>
+            Count: {count}
+          </div>
+        )}
       </div>
     </div>
   );

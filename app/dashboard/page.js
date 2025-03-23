@@ -76,7 +76,6 @@ export default function Dashboard() {
     { id: 'home', icon: '🏰', label: 'Hub' },
     { id: 'progress', icon: '📊', label: 'Stats' },
     { id: 'leaderboard', icon: '🏆', label: 'Rankings' },
-    { id: 'quests', icon: '⚔️', label: 'Quests' },
     { id: 'rewards', icon: '💎', label: 'Rewards' }
   ];
 
@@ -144,7 +143,7 @@ export default function Dashboard() {
           </div>
           <div className="mt-6 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-lg border border-cyan-500/20">
             <p className="text-center text-sm text-gray-400">
-              "The journey of a thousand miles begins with a single step"
+            &quot;The journey of a thousand miles begins with a single step&quot;
             </p>
           </div>
         </aside>

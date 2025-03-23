@@ -19,7 +19,7 @@ export default function MotivationSection() {
           <CardContent className="p-12 text-center">
             <div className="text-6xl mb-8">💪</div>
             <blockquote className="text-2xl font-semibold text-cyan-300 mb-4">
-              "{quote.text}"
+            &quot;{quote.text}&quot;
             </blockquote>
             <cite className="text-gray-400">- {quote.author}</cite>
           </CardContent>

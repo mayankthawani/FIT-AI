@@ -51,6 +51,7 @@ export default function Dashboard() {
   const [bicep, setBicep] = useState(0);
   const [lunges, setLunges] = useState(0);
   const [crunches, setCrunches] = useState(0);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -64,6 +65,8 @@ export default function Dashboard() {
         if (userDocSnap.exists()) {
           console.log("User data from Firestore:", userDocSnap.data()); // Debugging
           setUsername(userDocSnap.data().username || "No Username");
+          setUserId(currentUser.uid);
+          setTotalCoins(userDocSnap.data().coins || 0);
         } else {
           console.log("No such user in Firestore");
           setUsername("User");
@@ -136,7 +139,7 @@ export default function Dashboard() {
                />}
               {activePage === 'leaderboard' && <LeaderboardSection />}
               {activePage === 'motivation' && <MotivationSection />}
-              {activePage === 'rewards' && <Rewards totalCoins={totalCoins} />}
+              {activePage === 'rewards' && <Rewards totalCoins={totalCoins} userId={userId} setTotalCoins={setTotalCoins} />}
             </div>
           </div>
         </main>

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 export default function WelcomeSection({ username }) {
   const mockLevel = 12;
@@ -43,9 +44,11 @@ export default function WelcomeSection({ username }) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
+                  <Link href="/dashboard/workouts">
                   <Button className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transform hover:scale-[1.08] transition-all duration-200 shadow-lg shadow-cyan-500/30 hover:shadow-purple-600/50">
                     <span className="mr-2">⚔️</span> Start Quest
                   </Button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="bg-gray-800 border border-cyan-500">
                   <p className="text-white">Begin your daily fitness adventure!</p>

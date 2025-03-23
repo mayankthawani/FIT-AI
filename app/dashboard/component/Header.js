@@ -18,7 +18,7 @@ export default function Header() {
   const navItems = [
     { href: "/dashboard", label: "Quest Hub", icon: "🏰" },
     { href: "/dashboard/workouts", label: "Training Arena", icon: "⚔️" },
-    { href: "/diet", label: "Provisions", icon: "🍎" },
+    { href: "/dashboard/diet", label: "Provisions", icon: "🍎" },
     { href: "/dashboard/yoga", label: "Meditation Temple", icon: "🧘" },
   ];
 

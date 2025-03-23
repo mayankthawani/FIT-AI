@@ -76,7 +76,6 @@ export default function Dashboard() {
     { id: 'home', icon: '🏰', label: 'Hub' },
     { id: 'progress', icon: '📊', label: 'Stats' },
     { id: 'leaderboard', icon: '🏆', label: 'Rankings' },
-    { id: 'quests', icon: '⚔️', label: 'Quests' },
     { id: 'rewards', icon: '💎', label: 'Rewards' }
   ];
 

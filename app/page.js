@@ -133,9 +133,7 @@ export default function Home() {
                   Get Started
                 </Button>
               </Link>
-              <Button variant="outline" className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg border-cyan-500 text-cyan-400 hover:bg-cyan-950">
-                View Leaderboard
-              </Button>
+             
             </div>
           </div>
           <div className="absolute bottom-10 animate-bounce">
@@ -315,19 +313,7 @@ export default function Home() {
         </section>
 
         {/* Achievements Showcase */}
-        <section className="py-20 px-6 bg-purple-900/20">
-          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-pink-400 to-cyan-500 text-transparent bg-clip-text">
-            Epic Achievements
-          </h2>
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="aspect-square bg-gray-900/50 rounded-lg border border-cyan-500/20 p-4 flex flex-col items-center justify-center">
-                <div className="text-4xl mb-2">🏆</div>
-                <div className="text-sm text-cyan-300 text-center">Achievement {i + 1}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+       
 
         {/* Testimonials Section - Fixed Structure */}
         <section className="py-20 px-6 bg-black/40">

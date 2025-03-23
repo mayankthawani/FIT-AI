@@ -8,6 +8,7 @@ import { Toast, ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import { Menu } from "lucide-react";
 
 export default function Home() {
   const [activeClass, setActiveClass] = useState('warrior');
@@ -16,6 +17,7 @@ export default function Home() {
     experience: 70,
     nextLevel: 100
   });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -26,13 +28,13 @@ export default function Home() {
 
   return (
     <ToastProvider>
-      {/* Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-lg border-b border-cyan-500/20">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
+      <nav className="fixed top-0 w-full z-[100] bg-black/90 backdrop-blur-xl border-b border-cyan-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+          <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
             FitARena
           </div>
-          <div className="flex gap-6">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex gap-6">
             <Button 
               variant="ghost" 
               className="text-cyan-400"
@@ -54,32 +56,84 @@ export default function Home() {
             >
               Classes
             </Button>
-            <Link href = "/auth/signin"><Button className="bg-gradient-to-r from-cyan-500 to-purple-500">Login</Button></Link>
+            <Link href="/auth/signin">
+              <Button className="bg-gradient-to-r from-cyan-500 to-purple-500">Login</Button>
+            </Link>
           </div>
+          {/* Mobile Menu Button */}
+          <Button 
+            variant="ghost" 
+            className="md:hidden text-cyan-400"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Menu />
+          </Button>
         </div>
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="fixed md:hidden top-[52px] left-0 right-0 z-[90] bg-black/95 backdrop-blur-xl border-b border-cyan-500/20">
+            <div className="px-4 py-3 space-y-2">
+              <Button 
+                variant="ghost" 
+                className="text-cyan-400 w-full text-left"
+                onClick={() => {
+                  scrollToSection('features');
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Features
+              </Button>
+              <Button 
+                variant="ghost" 
+                className="text-cyan-400 w-full text-left"
+                onClick={() => {
+                  scrollToSection('gamemodes');
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Game Modes
+              </Button>
+              <Button 
+                variant="ghost" 
+                className="text-cyan-400 w-full text-left"
+                onClick={() => {
+                  scrollToSection('classes');
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Classes
+              </Button>
+              <Link href="/auth/signin" className="block">
+                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 w-full">
+                  Login
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
-      <div className="bg-gradient-to-b from-black via-purple-900 to-black text-white pt-16">
+      <div className="bg-gradient-to-b from-black via-purple-900 to-black text-white pt-16 sm:pt-20">
         {/* Hero Section with Particles */}
-        <section className="h-screen flex flex-col items-center justify-center px-6 relative">
+        <section className="min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center px-4 sm:px-6 relative">
           <div className="absolute top-0 left-0 w-full h-full">
             <div className="absolute top-10 left-10 w-32 h-32 bg-pink-500 rounded-full filter blur-3xl opacity-20"></div>
             <div className="absolute bottom-10 right-10 w-32 h-32 bg-cyan-500 rounded-full filter blur-3xl opacity-20"></div>
           </div>
           <div className="text-center max-w-2xl relative z-10">
-            <h1 className="text-6xl font-bold leading-tight bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 text-transparent bg-clip-text">
+            <h1 className="text-4xl sm:text-6xl font-bold leading-tight bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 text-transparent bg-clip-text">
               Level Up Your Fitness Journey
             </h1>
-            <p className="text-cyan-300 mt-4 text-lg">
+            <p className="text-cyan-300 mt-4 text-base sm:text-lg px-4">
               Transform your workouts into an epic quest. Train, compete, and conquer with AI-powered gameplay.
             </p>
-            <div className="flex gap-4 justify-center mt-8">
-              <Link href="/auth/Sinup">
-              <Button className="px-8 py-4 text-lg bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 border-none shadow-lg shadow-purple-500/25">
-                Get Started
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <Link href="/auth/Sinup" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 border-none shadow-lg shadow-purple-500/25">
+                  Get Started
+                </Button>
               </Link>
-              <Button variant="outline" className="px-8 py-4 text-lg border-cyan-500 text-cyan-400 hover:bg-cyan-950">
+              <Button variant="outline" className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg border-cyan-500 text-cyan-400 hover:bg-cyan-950">
                 View Leaderboard
               </Button>
             </div>
@@ -106,8 +160,8 @@ export default function Home() {
         </section>
 
         {/* Stats Counter Section */}
-        <section className="py-12 bg-black/40">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+        <section className="py-8 sm:py-12 bg-black/40">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6">
             <motion.div 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -136,12 +190,12 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="min-h-screen py-20 px-6 bg-black/40">
+        <section id="features" className="min-h-screen py-16 sm:py-20 px-4 sm:px-6 bg-black/40">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
               Epic Features Await
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               <Card className="bg-gray-900/50 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 group">
                 <CardContent className="p-8">
                   <div className="text-cyan-400 text-4xl mb-4">👁️</div>
@@ -194,10 +248,10 @@ export default function Home() {
         </section>
 
         {/* Game Modes Section with Tabs */}
-        <section id="gamemodes" className="py-20 px-6 bg-purple/20">
-          <h2 className="text-center text-xl mb-8">Game Modes</h2>
+        <section id="gamemodes" className="py-16 sm:py-20 px-4 sm:px-6 bg-purple/20">
+          <h2 className="text-center text-2xl sm:text-4xl mb-8 sm:mb-12">Game Modes</h2>
           <Tabs defaultValue="quests" className="max-w-xl mx-auto">
-            <TabsList className="flex justify-center mb-8 space-x-4">
+            <TabsList className="grid grid-cols-3 w-full mb-8">
               <TabsTrigger value="quests">Quests</TabsTrigger>
               <TabsTrigger value="battle">Battle Arena</TabsTrigger>
               <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
@@ -217,11 +271,11 @@ export default function Home() {
         </section>
 
         {/* Character Classes Section */}
-        <section id="classes" className="py-20 px-6 bg-black/40">
+        <section id="classes" className="py-16 sm:py-20 px-4 sm:px-6 bg-black/40">
           <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text">
             Choose Your Class
           </h2>
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {['warrior', 'rogue', 'mage'].map((classType) => (
               <Card 
                 key={classType}
@@ -298,8 +352,8 @@ export default function Home() {
         <ToastViewport />
 
         {/* Enhanced Footer - Fixed Structure */}
-        <footer className="bg-black/80 border-t border-cyan-500/20 py-12">
-          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer className="bg-black/80 border-t border-cyan-500/20 py-8 sm:py-12">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-4 gap-8">
             <div>
               <h3 className="text-cyan-400 font-bold mb-4">FitQuest</h3>
               <p className="text-gray-400">Level up your fitness journey</p>

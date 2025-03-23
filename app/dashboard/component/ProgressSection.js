@@ -38,12 +38,12 @@ export default function ProgressSection({ setTotalCoins, setBicep, setCrunches, 
   }, [setTotalCoins]);
 
   const stats = [
-    { label: "Push-Ups", count: userData?.pushups || 0, targetCount: 150, color: "border-cyan-500", coins: userData?.pushups || 80 },
-    { label: "Squats", count: userData?.squats || 0, targetCount: 150, color: "border-purple-500", coins: userData?.squats || 32 },
-    { label: "Bicep Curls", count: userData?.biceps || 0, targetCount: 200, color: "border-pink-500", coins: userData?.biceps || 21 },
-    { label: "Crunches", count: userData?.crunches || 0, targetCount: 10, color: "border-blue-500", coins: userData?.plankCoins || 29 },
-    { label: "Lunges", count: userData?.lunges || 0, targetCount: 100, color: "border-green-500", coins: userData?.lunges || 45 },
-    { label: "Head Rotator", count: userData?.headers || 0, targetCount: 50, color: "border-yellow-500", coins: userData?.headers|| 10 },
+    { label: "Push-Ups", count: userData?.pushups || 0, targetCount: 150, color: "border-cyan-500", coins: userData?.pushups || 0 },
+    { label: "Squats", count: userData?.squats || 0, targetCount: 150, color: "border-purple-500", coins: userData?.squats || 0 },
+    { label: "Bicep Curls", count: userData?.biceps || 0, targetCount: 200, color: "border-pink-500", coins: userData?.biceps || 0 },
+    { label: "Crunches", count: userData?.crunches || 0, targetCount: 10, color: "border-blue-500", coins: userData?.crunches || 0 },
+    { label: "Lunges", count: userData?.lunges || 0, targetCount: 100, color: "border-green-500", coins: userData?.lunges || 0 },
+    { label: "Head Rotator", count: userData?.headers || 0, targetCount: 50, color: "border-yellow-500", coins: userData?.headers|| 0 },
   ];
 
   // Updated star calculation logic

@@ -149,6 +149,13 @@ const PoseDetection = ({ pose }) => {
         if (userDocSnap.exists()) {
           console.log("User data from Firestore:", userDocSnap.data()); // Debugging
           setCoins(userDocSnap.data().coins || null);
+          setBiceps(userDocSnap.data().biceps || null);
+          setCrunches(userDocSnap.data().crunches || null);
+          setHeaders(userDocSnap.data().headers || null);
+          setLunges(userDocSnap.data().lunges || null);
+          setPushups(userDocSnap.data().pushups || null);
+          setSquats(userDocSnap.data().squats || null);
+          
         } else {
           console.log("No such user in Firestore");
         }

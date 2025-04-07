@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,6 +33,21 @@ export default function WelcomeSection({ username }) {
     }
   ];
 
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const p = Array.from({ length: 50 }).map(() => ({
+        startX: Math.random() * window.innerWidth,
+        endX: Math.random() * window.innerWidth,
+        startY: Math.random() * window.innerHeight,
+        endY: Math.random() * window.innerHeight,
+        duration: Math.random() * 10 + 10,
+      }));
+      setParticles(p);
+    }
+  }, []);
+
   return (
     <section className="min-h-screen py-12 relative overflow-hidden">
       {/* Gaming Background */}
@@ -43,22 +59,16 @@ export default function WelcomeSection({ username }) {
         <div className="absolute inset-0 bg-grid-pattern opacity-10 animate-grid" />
         
         {/* Floating Particles */}
-        {Array.from({ length: 50 }).map((_, i) => (
+        {typeof window !== "undefined" && particles.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-cyan-500/30 rounded-full"
             animate={{
-              x: [
-                Math.random() * window.innerWidth,
-                Math.random() * window.innerWidth,
-              ],
-              y: [
-                Math.random() * window.innerHeight,
-                Math.random() * window.innerHeight,
-              ],
+              x: [particle.startX, particle.endX],
+              y: [particle.startY, particle.endY],
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: particle.duration,
               repeat: Infinity,
               ease: "linear",
             }}

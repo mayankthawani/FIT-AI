@@ -4,17 +4,33 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import PoseDetection from "@/Pose-Detection/poseDetection";
+import ExerciseInstructions from "@/Pose-Detection/utils/ExerciseInstructions";
 
 export default function Detect() {
     const { name } = useParams();
     const [video, setVideo] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showInstructions, setShowInstructions] = useState(true);
 
     const handleToggle = () => {
         setIsLoading(true);
         setVideo(!video);
+        // Hide instructions when starting video
+        if (!video) {
+            setShowInstructions(false);
+        } else {
+            // Show instructions when stopping video
+            setTimeout(() => setShowInstructions(true), 500);
+        }
         // Simulate loading delay
         setTimeout(() => setIsLoading(false), 1000);
+    };
+    
+    // Format the exercise name for display
+    const formatExerciseName = (name) => {
+        return name.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
     };
 
     return (
@@ -27,12 +43,22 @@ export default function Detect() {
                 {/* Header Section */}
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4">
-                        Practice {name} Pose
+                        {formatExerciseName(name)} Exercise
                     </h1>
                     <p className="text-cyan-300 text-lg">
-                        Get real-time feedback on your pose alignment
+                        Get real-time feedback on your movement
                     </p>
                 </div>
+
+                {/* Instructions - shown when video is not active */}
+                <motion.div
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: showInstructions ? 1 : 0, height: showInstructions ? "auto" : 0 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ overflow: "hidden" }}
+                >
+                    {showInstructions && <ExerciseInstructions exerciseType={name} />}
+                </motion.div>
 
                 {/* Main Content */}
                 <div className="relative bg-gray-800/50 rounded-xl p-6 border border-purple-500/20">

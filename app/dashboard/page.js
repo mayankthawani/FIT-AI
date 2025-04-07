@@ -95,7 +95,7 @@ export default function Dashboard() {
       {/* Dashboard Layout */}
       <div className="flex h-screen pt-16">
         {/* Sidebar */}
-        <aside className="w-20 md:w-64 bg-gray-900/50 backdrop-blur-md border-r border-cyan-500/20">
+        <aside className="w-20 z-10 md:w-64 bg-gray-900/50 backdrop-blur-md border-r border-cyan-500/20">
           <ScrollArea className="h-full px-4 py-6">
             <div className="space-y-2">
               {menuItems.map((item) => (

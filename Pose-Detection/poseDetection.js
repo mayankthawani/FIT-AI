@@ -23,7 +23,13 @@ const PoseDetection = ({ pose }) => {
   const [count, setCount] = useState(0);
   const [leftRotations, setLeftRotations] = useState(0);
   const [rightRotations, setRightRotations] = useState(0);
+  const repSound = useRef(null);
   let poseLandmarker;
+
+  useEffect(() => {
+    repSound.current = new Audio("../public/sound/rep.mp3");
+    repSound.current.volume = 0.5; // Optional: Set volume
+  }, []);
 
   const updateCoinsInDB = async (userId, newCoins) => {
     if (!userId){
@@ -206,6 +212,7 @@ const PoseDetection = ({ pose }) => {
             if (headRotation === "HeadRotation Left") {
               detectedPose = "Head Left";
               if (!repRef.current) {
+                repSound.current.play(); // Play sound when a rep is detected
                 setCoins((prevCoins) => prevCoins + 1);
                 setLeftRotations(prev => prev + 1);
                 repRef.current = true;
@@ -213,6 +220,7 @@ const PoseDetection = ({ pose }) => {
             } else if (headRotation === "HeadRotation Right") {
               detectedPose = "Head Right";
               if (!repRef.current) {
+                repSound.current.play(); // Play sound when a rep is detected
                 setCoins((prevCoins) => prevCoins + 1);
                 setRightRotations(prev => prev + 1);
                 repRef.current = true;

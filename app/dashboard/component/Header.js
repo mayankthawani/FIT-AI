@@ -66,7 +66,7 @@ export default function Header() {
           <Button variant="ghost" className="relative">
             <span className="text-xl">🔔</span>
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center">
-              3
+              1
             </span>
           </Button>
 
@@ -88,7 +88,7 @@ export default function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mt-2 bg-gray-800 border border-cyan-500/20">
               <DropdownMenuItem className="text-cyan-400">
-                Profile
+           <Link href="dashboard/profile" > Profile </Link>  
               </DropdownMenuItem>
               <DropdownMenuItem className="text-cyan-400">
                 Settings

@@ -85,7 +85,13 @@ export default function WorkoutsPage() {
   }
 
   return (
+    
+    
     <section className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-violet-900/20 to-black relative">
+
+      <h1 className="text-6xl text-center items-center font-bold text-cyan-400">Gym Training</h1>
+      {/* Add gym-specific content */}
+   
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-[1]" />
       <div className="absolute inset-0 bg-black/50 -z-[1]" />
       

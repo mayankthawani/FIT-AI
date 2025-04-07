@@ -81,7 +81,7 @@ export default function Profile() {
                   className="h-4 bg-gray-700"
                 />
                 <div className="mt-2 text-gray-400 text-sm">
-                  {fitnessLevel.nextLevel - fitnessLevel.experience} XP needed for next level
+                  {fitnessLevel.nextLevel - fitnessLevel.experience} EXP needed for next level
                 </div>
               </div>
             </div>

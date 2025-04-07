@@ -33,6 +33,7 @@ const PoseDetection = ({ pose }) => {
   const [rightRotations, setRightRotations] = useState(0);
   const [pronationCount, setPronationCount] = useState(0);
   const [supinationCount, setSupinationCount] = useState(0);
+  const [wristRotations, setWristRotations] = useState(0);
   const lastRotationTypeRef = useRef(null);
   let poseLandmarker;
 
@@ -191,7 +192,7 @@ const PoseDetection = ({ pose }) => {
     if (user && wristRotations !== null) {
       updateWristRotationsInDB(user.uid, wristRotations);
     }
-  }, [wristRotations]);
+  }, [wristRotations, user]);
   
   useEffect(() => {
     if (user && coins !== null) {
@@ -340,18 +341,21 @@ const PoseDetection = ({ pose }) => {
             if (wristRotation === "Wrist Pronation") {
               detectedPose = "Pronation";
               if (!repRef.current && lastRotationTypeRef.current !== "pronation") {
-                repSound.current.play();
+                // Remove the repSound.current.play() line if you don't have sound functionality
+                // or initialize it properly in a useEffect
                 setCoins((prevCoins) => prevCoins + 1);
                 setPronationCount(prev => prev + 1);
+                setWristRotations(prev => prev + 1); // Add this to update wristRotations
                 repRef.current = true;
                 lastRotationTypeRef.current = "pronation";
               }
             } else if (wristRotation === "Wrist Supination") {
               detectedPose = "Supination";
               if (!repRef.current && lastRotationTypeRef.current !== "supination") {
-                repSound.current.play();
+                // Remove the repSound.current.play() line if you don't have sound functionality
                 setCoins((prevCoins) => prevCoins + 1);
                 setSupinationCount(prev => prev + 1);
+                setWristRotations(prev => prev + 1); // Add this to update wristRotations
                 repRef.current = true;
                 lastRotationTypeRef.current = "supination";
               }
@@ -366,7 +370,7 @@ const PoseDetection = ({ pose }) => {
                 repRef.current = false;
               }
             }
-          }                       
+          }                     
           else if(pose === "bicepcurl"){
             const isBicepCurl = detectBicepCurl(keypoints);
             if (isBicepCurl) {

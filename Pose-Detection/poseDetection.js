@@ -355,7 +355,7 @@ const PoseDetection = ({ pose }) => {
                 // Remove the repSound.current.play() line if you don't have sound functionality
                 setCoins((prevCoins) => prevCoins + 1);
                 setSupinationCount(prev => prev + 1);
-                setWristRotations(prev => prev + 1); // Add this to update wristRotations
+                setCount(prev => prev + 1); // Add this to update wristRotations
                 repRef.current = true;
                 lastRotationTypeRef.current = "supination";
               }

@@ -6,6 +6,7 @@ import { detectStanding } from "./utils/standing";
 import { detectSquat } from "./utils/squat";
 import { detectPushup } from "./utils/pushup";
 import { detectHeadRotation } from "./utils/headrotation";
+import { detectWristRotation } from "./utils/wristRotation";
 import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instance
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -30,6 +31,7 @@ const PoseDetection = ({ pose }) => {
   const [count, setCount] = useState(0);
   const [leftRotations, setLeftRotations] = useState(0);
   const [rightRotations, setRightRotations] = useState(0);
+  const [wristRotations, setWristRotations] = useState(0);
   let poseLandmarker;
 
   const updateCoinsInDB = async (userId, newCoins) => {
@@ -46,6 +48,21 @@ const PoseDetection = ({ pose }) => {
       console.error("Error updating coins:", error);
     }
   };
+
+  const updateWristRotationsInDB = async (userId, newWristRotations) => {
+    if (!userId){
+      console.error("User not logged in");
+      return;
+    };
+  
+    try {
+      const userDocRef = doc(db, "users", userId);
+      await updateDoc(userDocRef, { wristRotations: newWristRotations });
+      console.log("Wrist rotations updated in Firestore:", newWristRotations);
+    } catch (error) {
+      console.error("Error updating wrist rotations:", error);
+    }
+  };  
 
   const updatePushupsInDB = async (userId, newPushups) => {
     if (!userId){
@@ -168,6 +185,12 @@ const PoseDetection = ({ pose }) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (user && wristRotations !== null) {
+      updateWristRotationsInDB(user.uid, wristRotations);
+    }
+  }, [wristRotations]);
+  
   useEffect(() => {
     if (user && coins !== null) {
       updateCoinsInDB(user.uid, coins);
@@ -309,6 +332,25 @@ const PoseDetection = ({ pose }) => {
               }
             }
           }
+          else if(pose === "wrist-rotate") {
+            const wristState = detectWristRotation(keypoints);
+          
+            if (wristState === "WristRotation Left" || wristState === "WristRotation Right" || wristState === "WristRotation Both") {
+              detectedPose = wristState;
+              if (!repRef.current) {
+                setCoins((prevCoins) => prevCoins + 1);
+                setHeaders((prevHeaders) => prevHeaders + 1); // Using headers for wrist rotations too
+                // You might want to create a separate state for wrist rotations
+                // Or add setWristRotations here if you create that state
+                repRef.current = true;
+              }
+            } else {
+              detectedPose = "Center";
+              if(repRef.current) {
+                repRef.current = false;
+              }
+            }
+          }                
           else if(pose === "bicepcurl"){
             const isBicepCurl = detectBicepCurl(keypoints);
             if (isBicepCurl) {

@@ -75,9 +75,33 @@ export default function WorkoutsPage() {
   ];
 
   const exerciseCategories = {
-    strength: [exercises[0], exercises[1], exercises[3]], // Squats, Push-ups, Bicep Curls
-    mobility: [exercises[2]], // Head Rotations
-    core: [exercises[4], exercises[5]], // Planks, Lunges
+    "Monday - Push": [
+      exercises[1], // Push-ups
+      // Add more push exercises here
+    ],
+    "Tuesday - Pull": [
+      exercises[3], // Bicep Curls
+      // Add more pull exercises here
+    ],
+    "Wednesday - Legs": [
+      exercises[0], // Squats
+      exercises[5], // Lunges
+      // Add more leg exercises here
+    ],
+    "Thursday - Push": [
+      exercises[1], // Push-ups
+      // Add more push exercises here
+    ],
+    "Friday - Pull": [
+      exercises[3], // Bicep Curls
+      // Add more pull exercises here
+    ],
+    "Saturday - Legs": [
+      exercises[0], // Squats
+      exercises[5], // Lunges
+      // Add more leg exercises here
+    ],
+    
   };
 
   const handleClick = (pose) => {
@@ -85,13 +109,14 @@ export default function WorkoutsPage() {
   }
 
   return (
-    
-    
     <section className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-violet-900/20 to-black relative">
+      <h1 className="text-6xl text-center items-center font-bold text-cyan-400">Weekly Training Split</h1>
+      
+      {/* Add intro text */}
+      <div className="text-center mt-4 mb-8">
+        <p className="text-gray-300">Following Push, Pull, Legs (PPL) routine - Train each muscle group 2x per week</p>
+      </div>
 
-      <h1 className="text-6xl text-center items-center font-bold text-cyan-400">Gym Training</h1>
-      {/* Add gym-specific content */}
-   
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-[1]" />
       <div className="absolute inset-0 bg-black/50 -z-[1]" />
       

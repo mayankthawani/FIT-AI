@@ -12,7 +12,7 @@ export default function WelcomeSection({ username }) {
       description: "Traditional workout routines with expert form tracking",
       features: ["Form Analysis", "Progress Tracking", "Strength Metrics"],
       color: "from-blue-500 to-cyan-500",
-      href: "/dashboard/gym"
+      href: "/dashboard/workouts"
     },
     {
       title: "Gamer Zone",

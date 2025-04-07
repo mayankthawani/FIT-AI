@@ -70,3 +70,50 @@
   50% { transform: translateY(-20px) rotate(180deg); }
   100% { transform: translateY(0px) rotate(360deg); }
 }
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes grid {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(-20px) translateY(-20px);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.animate-grid {
+  animation: grid 10s linear infinite;
+}
+
+@font-face {
+  font-family: 'Gaming';
+  src: url('/fonts/PressStart2P-Regular.ttf') format('truetype');
+}
+
+.font-gaming {
+  font-family: 'Gaming', system-ui, sans-serif;
+}

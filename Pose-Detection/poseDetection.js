@@ -10,7 +10,6 @@ import { auth, db } from "@/firebaseConfig"; // Import your Firebase auth instan
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { detectBicepCurl } from "./utils/bicepcurl";
-import { detectLunges } from "./utils/lunges";
 
 
 const PoseDetection = ({ pose }) => {
@@ -21,12 +20,6 @@ const PoseDetection = ({ pose }) => {
   const [user, setUser] = useState(null);
   const repRef = useRef(false);
   const [coins, setCoins] = useState(0);
-  const [pushups, setPushups] = useState(0);
-  const [squats, setSquats] = useState(0);
-  const [crunches, setCrunches] = useState(0);
-  const [lunges, setLunges] = useState(0);
-  const [biceps, setBiceps] = useState(0);
-  const [headers, setHeaders] = useState(0);
   const [count, setCount] = useState(0);
   const [leftRotations, setLeftRotations] = useState(0);
   const [rightRotations, setRightRotations] = useState(0);
@@ -47,96 +40,6 @@ const PoseDetection = ({ pose }) => {
     }
   };
 
-  const updatePushupsInDB = async (userId, newPushups) => {
-    if (!userId){
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { pushups: newPushups });
-      console.log("Pushups updated in Firestore:", newPushups);
-    } catch (error) {
-      console.error("Error updating pushups:", error);
-    }
-  };
-
-  const updateSquatsInDB = async (userId, newSquats) => {
-    if (!userId){ 
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { squats: newSquats });
-      console.log("Squats updated in Firestore:", newSquats);
-    } catch (error) {
-      console.error("Error updating squats:", error);
-    }
-  };
-
-  const updateCrunchesInDB = async (userId, newCrunches) => {
-    if (!userId){
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-  
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { crunches: newCrunches });
-      console.log("Crunches updated in Firestore:", newCrunches);
-    } catch (error) {
-      console.error("Error updating crunches:", error);
-    }
-  };
-
-  const updateLungesInDB = async (userId, newLunges) => {
-    if (!userId){
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-  
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { lunges: newLunges });
-      console.log("Lunges updated in Firestore:", newLunges);
-    } catch (error) {
-      console.error("Error updating lunges:", error);
-    }
-  };
-
-  const updateHeadRotationsInDB = async (userId, newHeadRotations) => {
-    if (!userId){
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-  
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { headers: newHeadRotations });
-      console.log("Head rotations updated in Firestore:", newHeadRotations);
-    } catch (error) {
-      console.error("Error updating head rotations:", error);
-    }
-  };
-
-  const updateBicepCurlsInDB = async (userId, newBicepCurls) => {
-    if (!userId){
-      console.error("User not logged in");
-      return;
-    }; // Ensure user is logged in
-  
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { biceps: newBicepCurls });
-      console.log("Bicep curls updated in Firestore:", newBicepCurls);
-    } catch (error) {
-      console.error("Error updating bicep curls:", error);
-    }
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -149,13 +52,6 @@ const PoseDetection = ({ pose }) => {
         if (userDocSnap.exists()) {
           console.log("User data from Firestore:", userDocSnap.data()); // Debugging
           setCoins(userDocSnap.data().coins || null);
-          setBiceps(userDocSnap.data().biceps || null);
-          setCrunches(userDocSnap.data().crunches || null);
-          setHeaders(userDocSnap.data().headers || null);
-          setLunges(userDocSnap.data().lunges || null);
-          setPushups(userDocSnap.data().pushups || null);
-          setSquats(userDocSnap.data().squats || null);
-          
         } else {
           console.log("No such user in Firestore");
         }
@@ -172,43 +68,7 @@ const PoseDetection = ({ pose }) => {
     if (user && coins !== null) {
       updateCoinsInDB(user.uid, coins);
     }
-  }, [coins]);
-  
-  useEffect(() => {
-    if (user && pushups !== null) {
-      updatePushupsInDB(user.uid, pushups);
-    }
-  }, [pushups]);
-  
-  useEffect(() => {
-    if (user && headers !== null) {
-      updateHeadRotationsInDB(user.uid, headers);
-    }
-  }, [leftRotations, rightRotations]);
-  
-  useEffect(() => {
-    if (user && squats !== null) {
-      updateSquatsInDB(user.uid, squats);
-    }
-  }, [squats]);
-  
-  useEffect(() => {
-    if (user && lunges !== null) {
-      updateLungesInDB(user.uid, lunges);
-    }
-  }, [lunges]);
-  
-  useEffect(() => {
-    if (user && crunches !== null) {
-      updateCrunchesInDB(user.uid, crunches);
-    }
-  }, [crunches]);
-  
-  useEffect(() => {
-    if (user && biceps !== null) {
-      updateBicepCurlsInDB(user.uid, biceps);
-    }
-  }, [biceps]);
+  }, [coins]); // Ensure coins updates when user changes
 
   useEffect(() => {
     const setupCamera = async () => {
@@ -285,7 +145,6 @@ const PoseDetection = ({ pose }) => {
               detectedPose = "Squat";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setSquats((prevSquats) => prevSquats + 1);
                 setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
                 repRef.current = true;
               }
@@ -298,7 +157,6 @@ const PoseDetection = ({ pose }) => {
               detectedPose = "PushUp";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setPushups((prevPushups) => prevPushups + 1);
                 setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
                 repRef.current = true;
               }
@@ -315,7 +173,6 @@ const PoseDetection = ({ pose }) => {
               detectedPose = "BicepCurl";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setBiceps((prevBiceps) => prevBiceps + 1);
                 setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
                 repRef.current = true;
               }
@@ -333,7 +190,6 @@ const PoseDetection = ({ pose }) => {
               detectedPose = "Crunches";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setCrunches((prevCrunches) => prevCrunches + 1);
                 setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
                 repRef.current = true;
               }
@@ -351,7 +207,6 @@ const PoseDetection = ({ pose }) => {
               detectedPose = "Head Left";
               if (!repRef.current) {
                 setCoins((prevCoins) => prevCoins + 1);
-                setHeaders((prevHeaders) => prevHeaders + 1);
                 setLeftRotations(prev => prev + 1);
                 repRef.current = true;
               }
@@ -364,24 +219,6 @@ const PoseDetection = ({ pose }) => {
               }
             } else {
               detectedPose = "Center";
-              if(repRef.current) {
-                repRef.current = false;
-              }
-            }
-          }
-          else if(pose === "lunges") {
-            const isLunges = detectLunges(keypoints);
-          
-            if (isLunges) {
-              detectedPose = "Lunges";
-              if (!repRef.current) {
-                setCoins((prevCoins) => prevCoins + 1);
-                setLunges((prevLunges) => prevLunges + 1);
-                setCount((prevCount) => prevCount + 1); // Updates state, triggers useEffect
-                repRef.current = true;
-              }
-            } else {
-              detectedPose = "Unknown";
               if(repRef.current) {
                 repRef.current = false;
               }

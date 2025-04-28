@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import PoseDetection from "@/Pose-Detection/poseDetection";
 import ExerciseInstructions from "@/Pose-Detection/utils/ExerciseInstructions";
+import ExerciseVideo from "@/components/ExerciseVideo";
 
 export default function Detect() {
     const { name } = useParams();
@@ -49,6 +50,9 @@ export default function Detect() {
                         Get real-time feedback on your movement
                     </p>
                 </div>
+
+                {/* Video Demonstration Section */}
+                <ExerciseVideo exerciseName={name} />
 
                 {/* Instructions - shown when video is not active */}
                 <motion.div

@@ -28,7 +28,17 @@ export default function WorkoutsPage() {
       passingParam: "pushup",
       targetMuscles: ["Chest", "Shoulders", "Triceps"]
     },
-    
+    { 
+      name: "Head Rotations", 
+      sets: 2, 
+      reps: 10, 
+      muscle: "Neck", 
+      icon: "🔄",
+      description: "Slowly rotate head in circular motions, keeping movements controlled. Helps reduce neck tension and improves mobility.",
+      difficulty: "Easy",
+      passingParam: "head-rotate",
+      targetMuscles: ["Neck muscles", "Upper trapezius"]
+    },
     { 
       name: "Bicep Curls", 
       sets: 3, 
